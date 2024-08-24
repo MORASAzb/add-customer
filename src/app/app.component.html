@@ -1,0 +1,145 @@
+<div class="flex flex-col items-center border border-gray-400 rounded-lg relative  w-[60vw]" *ngIf="isVisible">
+  <div
+    class="flex flex-row justify-between items-center p-2 mt-0 border-b-2 border-black bg-gray-400 w-[100%] m-[0_10px] rounded-t-lg my-0">
+    <h3 class="mr-1">افزودن خریدار</h3>
+    <button class="text-2xl border-none bg-none" (click)="toggleVisibility()">
+      <mat-icon>
+        cancel
+      </mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="addCustomer" (ngSubmit)="onSubmit()" class="flex flex-col items-center justify-center w-full ">
+
+    <div class="grid grid-cols-2 gap-3 grid-rows-4 w-[100%] my-5 px-8">
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2"> نام * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput formControlName="name" placeholder="نام را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>title</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('name')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">نام خانوادگی * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput formControlName="lastName" placeholder="نام خانوادگی را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>title</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('lastName')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">نام شرکت * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput formControlName="companyName" placeholder="نام شرکت را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>title</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('companyName')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">کد اقتصادی * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput type="number" formControlName="economicCode" placeholder="کد اقتصادی را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>pin</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('economicCode')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">کد ملی * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput type="number" formControlName="nationalCode" placeholder="کد ملی را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>pin</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('nationalCode')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">تلفن * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput type="number" formControlName="phone" placeholder="تلفن را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>call</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('phone')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">کد پستی * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput type="number" formControlName="postalCode" placeholder="کد پستی را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>local_post_office</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('postalCode')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-center mb-5">
+        <label class="mb-2">آدرس * </label>
+        <mat-form-field>
+          <div class="flex flex-row items-center justify-center">
+            <input matInput formControlName="address" placeholder="آدرس را وارد کنید"
+              class="placeholder:text-sm placeholder:text-black" />
+            <mat-icon>location_on</mat-icon>
+          </div>
+        </mat-form-field>
+        <div *ngIf="isFieldInvalid('address')" class="relative mr-6 text-xs text-red-600 bottom-4">
+          این فیلد باید تکمیل شود.
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="flex p-2 w-[100%] border-t-2 border-black bg-gray-400 rounded-b-lg justify-end gap-2">
+      <button class="px-4 py-2 font-bold text-black rounded"
+        [ngClass]="isFormFilled ? 'bg-red-600' : 'bg-gray-600 cursor-not-allowed text-gray-300'"
+        [disabled]="!isFormFilled" (click)="resetForm()">
+        انصراف
+      </button>
+
+      <button mat-mini type="submit" class="px-4 py-2 font-bold text-black bg-green-500 rounded"> افزودن </button>
+
+
+    </div>
+
+
+  </form>
+</div>

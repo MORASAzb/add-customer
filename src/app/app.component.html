@@ -1,4 +1,5 @@
 <div class="flex flex-col items-center border border-gray-400 rounded-lg relative  w-[60vw]" *ngIf="isVisible">
+  
   <div
     class="flex flex-row justify-between items-center p-2 mt-0 border-b-2 border-black bg-gray-400 w-[100%] m-[0_10px] rounded-t-lg my-0">
     <h3 class="mr-1">افزودن خریدار</h3>
@@ -18,7 +19,7 @@
           <mat-label class="text-sm"> نام  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput formControlName="name" placeholder="نام را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>title</mat-icon>
           </div>
         </mat-form-field>
@@ -32,7 +33,7 @@
           <mat-label class="text-sm">نام خانوادگی  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput formControlName="lastName" placeholder="نام خانوادگی را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required />
             <mat-icon>title</mat-icon>
           </div>
         </mat-form-field>
@@ -46,7 +47,7 @@
           <mat-label class="text-sm">نام شرکت  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput formControlName="companyName" placeholder="نام شرکت را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required />
             <mat-icon>title</mat-icon>
           </div>
         </mat-form-field>
@@ -60,7 +61,7 @@
           <mat-label class="text-sm">کد اقتصادی  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput type="number" formControlName="economicCode" placeholder="کد اقتصادی را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>pin</mat-icon>
           </div>
         </mat-form-field>
@@ -74,7 +75,7 @@
           <mat-label class="text-sm">کد ملی  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput type="number" formControlName="nationalCode" placeholder="کد ملی را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>pin</mat-icon>
           </div>
         </mat-form-field>
@@ -88,7 +89,7 @@
           <mat-label class="text-sm">تلفن  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput type="number" formControlName="phone" placeholder="تلفن را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>call</mat-icon>
           </div>
         </mat-form-field>
@@ -102,7 +103,7 @@
           <mat-label class="text-sm">کد پستی  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput type="number" formControlName="postalCode" placeholder="کد پستی را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>local_post_office</mat-icon>
           </div>
         </mat-form-field>
@@ -116,7 +117,7 @@
           <mat-label class="text-sm">آدرس  </mat-label>
           <div class="flex flex-row items-center justify-center">
             <input matInput formControlName="address" placeholder="آدرس را وارد کنید"
-              class="placeholder:text-sm placeholder:text-black" />
+              class="placeholder:text-sm placeholder:text-black" required/>
             <mat-icon>location_on</mat-icon>
           </div>
         </mat-form-field>

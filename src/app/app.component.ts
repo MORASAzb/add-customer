@@ -6,19 +6,15 @@ import { FormBuilder, FormArray, FormGroup, Validators, FormControl, ReactiveFor
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApiService } from './api.service';
-
+import { BuyerAddComponent } from './buyer-add/buyer-add.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatSnackBarModule,
+
+    BuyerAddComponent
     
   ],
   templateUrl: './app.component.html',
@@ -36,7 +32,7 @@ export class AppComponent {
   isCancelClicked = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService){
-  // constructor(private fb: FormBuilder) {
+
     this.addCustomer = this.fb.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -63,21 +59,6 @@ export class AppComponent {
     this.isSubmitted = false;
     setTimeout(() => this.isCancelClicked = false, 0);
   }
-
-  // onSubmit() {
-  //   if (this.isCancelClicked) return;
-  //   this.isSubmitted = true;
-  //   if (this.addCustomer.valid) { 
-  //     const formData = this.addCustomer.value;
-  //     console.log('Form Data:', formData);
-  //     this.resetForm(); 
-  //     this.addCustomer.valid;
-  //   }else{
-  //     this.addCustomer.markAllAsTouched();
-  //     console.log('empty'); 
-  //   }
-  // } 
-
 
   onSubmit() {
     if (this.isCancelClicked) return;

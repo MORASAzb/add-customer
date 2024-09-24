@@ -1,46 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, } from '@angular/forms'
-import { CommonModule } from '@angular/common';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCard } from '@angular/material/card';
-import { MatDivider } from '@angular/material/divider';
-import { ApiService } from '../api.service';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatOption, MatSelect } from '@angular/material/select';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { MatCheckbox } from '@angular/material/checkbox';
-
-
-
 
 @Component({
   selector: 'app-buyer-add',
   templateUrl: './buyer-add.component.html',
-  standalone: true,
-  imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatSnackBarModule,
-    MatCard,
-    MatDivider,
-    MatToolbar,
-    MatSelect,
-    MatOption,
-    MatCheckbox,
-
-
-  ],
   styleUrl: './buyer-add.component.scss'
 })
 export class BuyerAddComponent {
-
   isVisible = true;
   addCustomer: FormGroup;
   isFormFilled: boolean = false;
@@ -54,21 +23,23 @@ export class BuyerAddComponent {
   constructor(private fb: FormBuilder, private apiService: ApiService, private http: HttpClient) {
 
     this.addCustomer = this.fb.group({
-
       type: [0, Validators.required],
-      name: ['', Validators.required],
-      brandName: ['', Validators.required],
-      economicNumber: ['', [Validators.required, this.economicNumberValidator.bind(this)]],
-      nationalId: ['', Validators.required],
+      name: [''],
+      brandName: [''],
+      economicNumber: ['', Validators.required],
+      nationalId: [''],
       moblie: [''],
+      branchCountry: [''],
+      branchProvince: [''],
+      branchCity: [''],
+      branchAddress: [''],
+      isMainBranch: [false],
+      branchCode: ['',Validators.required],
+      branchName: ['',Validators.required],
       passportNumber: [''],
-      status: [0],
+      branchPostalCode: [''],
       email: [''],
-      address: [''],
-      inqueryStatus: [0],
-      BranchCode: [''],
-      BranchName: [''],
-      isMainBranch: [false]
+      status: [0],
     });
 
     this.addCustomer.valueChanges.subscribe(() => {
@@ -79,7 +50,7 @@ export class BuyerAddComponent {
 
   ngOnInit(): void {
 
-    const url = 'http://172.18.70.15:20946/api/v1/metadata/economicactivisttype?userid=4Ow5Fn';
+    const url = 'http://172.18.70.15:91/api/v1/metadata/economicactivisttype?userid=4Ow5Fn';
     this.http.get<any>(url).subscribe(
       res => {
         this.options = res.data;
@@ -93,17 +64,30 @@ export class BuyerAddComponent {
     this.addCustomer.get('isMainBranch')?.valueChanges.subscribe(isChecked => {
       if (isChecked) {
         this.addCustomer.patchValue({
-          BranchCode: '0000',
-          BranchName: '0000',
+          branchCode: '0000',
+          branchName: 'شعبه مرکزی',
         });
-        this.addCustomer.get('BranchCode')?.disable();
-        this.addCustomer.get('BranchName')?.disable();
+        this.addCustomer.get('branchCode')?.disable();
+        this.addCustomer.get('branchName')?.disable();
+        this.addCustomer.get('branchCountry')?.disable();
+        this.addCustomer.get('branchProvince')?.disable();
+        this.addCustomer.get('branchCity')?.disable();
+        this.addCustomer.get('branchAddress')?.disable();
+
+
+
       } else {
-        this.addCustomer.get('BranchCode')?.enable();
-        this.addCustomer.get('BranchName')?.enable();
+        this.addCustomer.get('branchCode')?.enable();
+        this.addCustomer.get('branchName')?.enable();
+        this.addCustomer.get('branchCountry')?.enable();
+        this.addCustomer.get('branchProvince')?.enable();
+        this.addCustomer.get('branchCity')?.enable();
+        this.addCustomer.get('branchAddress')?.enable();
+
+
         this.addCustomer.patchValue({
-          BranchCode: '',
-          BranchName: '',
+          branchCode: '',
+          branchName: '',
         });
       }
     });
@@ -113,9 +97,41 @@ export class BuyerAddComponent {
       this.addCustomer.get('economicNumber')?.updateValueAndValidity();
     });
 
+    this.addCustomer.get('type')?.valueChanges.subscribe(selectedValue => {
+      console.log('Selected type:', selectedValue); // Debugging
+      this.selectedType = selectedValue;
+      this.manageFormFields(this.selectedType);
+      this.addCustomer.get('economicNumber')?.updateValueAndValidity();
+    });
 
+    this.manageFormFields(this.selectedType);
   }
 
+  manageFormFields(selectedType: number) {
+    console.log('Managing form fields for type:', selectedType); // Debugging 
+
+    const nameControl = this.addCustomer.get('name');
+    const brandNameControl = this.addCustomer.get('brandName');
+    const nationalIdControl = this.addCustomer.get('nationalId');
+  
+    nameControl?.clearValidators();
+    brandNameControl?.clearValidators();
+    nationalIdControl?.clearValidators();
+  
+    if (selectedType === 1) {
+      nameControl?.setValidators([Validators.required]);
+      nationalIdControl?.setValidators([Validators.required]);
+    } else if (selectedType === 2) {
+      brandNameControl?.setValidators([Validators.required]);
+    } else if (selectedType === 3) {
+      nameControl?.setValidators([Validators.required]);
+    }
+  
+    nameControl?.updateValueAndValidity();
+    brandNameControl?.updateValueAndValidity();
+    nationalIdControl?.updateValueAndValidity();
+  }
+  
 
   resetForm() {
     this.isCancelClicked = true;
@@ -128,44 +144,44 @@ export class BuyerAddComponent {
   }
 
 
-  economicNumberValidator(control: any) {
-    if (!control.value || !this.selectedType) {
-      return null;
-    }
+  // economicNumberValidator(control: any) {
+  //   if (!control.value || !this.selectedType) {
+  //     return null;
+  //   }
 
-    const value = control.value.toString();
+  //   const value = control.value.toString();
 
-    if (this.selectedType === 1) {
-      if (/^\d{14}$/.test(value)) {
-        return null;
-      } else {
-        return { invalidEconomicNumber: true };
-      }
-    } else if (this.selectedType === 2) {
-      if (/^\d{11}$/.test(value)) {
-        return null;
-      } else {
-        return { invalidEconomicNumber: true };
-      }
-    } else if (this.selectedType === 3) {
-      if (/^\d{11}$/.test(value)) {
-        return null;
-      } else {
-        return { invalidEconomicNumber: true };
-      }
-    } else if (this.selectedType === 4) {
-      if (/^\d{14}$/.test(value)) {
-        return null;
-      } else {
-        return { invalidEconomicNumber: true };
-      }
-    }
+  //   if (this.selectedType === 1) {
+  //     if (/^\d{14}$/.test(value)) {
+  //       return null;
+  //     } else {
+  //       return { invalidEconomicNumber: true };
+  //     }
+  //   } else if (this.selectedType === 2) {
+  //     if (/^\d{11}$/.test(value)) {
+  //       return null;
+  //     } else {
+  //       return { invalidEconomicNumber: true };
+  //     }
+  //   } else if (this.selectedType === 3) {
+  //     if (/^\d{11}$/.test(value)) {
+  //       return null;
+  //     } else {
+  //       return { invalidEconomicNumber: true };
+  //     }
+  //   } else if (this.selectedType === 4) {
+  //     if (/^\d{14}$/.test(value)) {
+  //       return null;
+  //     } else {
+  //       return { invalidEconomicNumber: true };
+  //     }
+  //   }
 
-    return { invalidEconomicNumber: true };
-  }
-
+  //   return { invalidEconomicNumber: true };
+  // }
 
   onSubmit() {
+    
     if (this.isCancelClicked) return;
     this.isSubmitted = true;
 
@@ -173,18 +189,24 @@ export class BuyerAddComponent {
 
     if (isMainBranch) {
       this.addCustomer.patchValue({
-        BranchCode: '0000',
-        BranchName: '0000',
+        branchCode: '0000',
+        branchName: 'شعبه مرکزی',
       });
     }
 
+    this.addCustomer.get('name')?.updateValueAndValidity();
+    this.addCustomer.get('brandName')?.updateValueAndValidity();
+    this.addCustomer.get('nationalId')?.updateValueAndValidity();
+
     if (this.addCustomer.valid) {
       const formData = this.addCustomer.value;
+      console.log('Submitting form data:', formData);
       this.apiService.addCustomerWithId(formData).subscribe(response => {
-        if (response.isSuccess) {
+        if (response) {
           this.apiService.showNotification('داده‌ها با موفقیت ارسال شدند', 'success');
           this.resetForm();
         } else {
+          console.error('Response was empty or invalid:', response); 
           this.apiService.showNotification('داده‌ها ارسال نشدند', 'error');
         }
       }, error => {
@@ -201,8 +223,6 @@ export class BuyerAddComponent {
     return (field?.invalid && this.isSubmitted) || false;
   }
 
-
-
   updateFormStatus() {
     this.isFormFilled = this.addCustomer.valid;
   }
@@ -210,9 +230,6 @@ export class BuyerAddComponent {
   toggleVisibility() {
     this.isVisible = !this.isVisible;
   }
-
-
-
 }
 
 

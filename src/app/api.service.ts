@@ -34,23 +34,6 @@ export class ApiService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
-  // addCustomer(data: any): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   });
-
-  //   const url = 'http://172.18.70.15:20946/api/v1/taxpayer/AddCustomer?userid=4Ow5Fn'
-
-  //   return this.http.post<any>(url, data, { headers }).pipe(
-  //     catchError(error => {
-  //       this.showNotification('خطایی در ارسال داده رخ داد', 'error');
-  //       return of(null); 
-  //     })
-  //   );
-  // }
-
-
-
   getIdFromService(): Observable<number> {
     const url = 'http://172.18.70.15:20946/api/v1/metadata/economicactivisttype?userid=4Ow5Fn';
     return this.http.get<any>(url).pipe(

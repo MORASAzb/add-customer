@@ -25,74 +25,74 @@ export class AppComponent {
     throw new Error('Method not implemented.');
   }
 
-  isVisible = true;
-  addCustomer: FormGroup;
-  isFormFilled: boolean = false;
-  isSubmitted = false;
-  isCancelClicked = false;
+  // isVisible = true;
+  // addCustomer: FormGroup;
+  // isFormFilled: boolean = false;
+  // isSubmitted = false;
+  // isCancelClicked = false;
 
   constructor(private fb: FormBuilder, private apiService: ApiService){
 
-    this.addCustomer = this.fb.group({
-      name: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', Validators.required],
-      phone: ['', Validators.required],
-      nationalCode: ['', Validators.required],
-      economicCode: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      companyName: ['', Validators.required],
+    // this.addCustomer = this.fb.group({
+    //   name: ['', Validators.required],
+    //   lastName: ['', Validators.required],
+    //   address: ['', Validators.required],
+    //   phone: ['', Validators.required],
+    //   nationalCode: ['', Validators.required],
+    //   economicCode: ['', Validators.required],
+    //   postalCode: ['', Validators.required],
+    //   companyName: ['', Validators.required],
 
-    });
+    // });
 
-    this.addCustomer.valueChanges.subscribe(() => {
-      this.isFormFilled = this.addCustomer.dirty && !this.addCustomer.invalid;
-    });
+    // this.addCustomer.valueChanges.subscribe(() => {
+    //   this.isFormFilled = this.addCustomer.dirty && !this.addCustomer.invalid;
+    // });
   }
 
-  resetForm() {
-    this.isCancelClicked=true;
-    this.addCustomer.reset();
-    this.addCustomer.markAsPristine();
-    this.addCustomer.markAsUntouched();
-    this.isFormFilled = false;
-    this.isSubmitted = false;
-    setTimeout(() => this.isCancelClicked = false, 0);
-  }
+  // resetForm() {
+  //   this.isCancelClicked=true;
+  //   this.addCustomer.reset();
+  //   this.addCustomer.markAsPristine();
+  //   this.addCustomer.markAsUntouched();
+  //   this.isFormFilled = false;
+  //   this.isSubmitted = false;
+  //   setTimeout(() => this.isCancelClicked = false, 0);
+  // }
 
-  onSubmit() {
-    if (this.isCancelClicked) return;
-    this.isSubmitted = true;
-    if (this.addCustomer.valid) {
-      const formData = this.addCustomer.value;
-      this.apiService.addCustomer(formData).subscribe(response => {
-        if (response) {
-          this.apiService.showNotification('داده‌ها با موفقیت ارسال شدند', 'success');
-          this.resetForm();
-        } else {
-          this.apiService.showNotification('داده‌ها ارسال نشدند', 'error');
-        }
-      }, error => {
-        this.apiService.showNotification('خطا در ارسال داده‌ها', 'error');
-      });
-    } else {
-      this.addCustomer.markAllAsTouched();
-      this.apiService.showNotification('لطفاً همه فیلدها را کامل کنید', 'error');
-    }
-  }
+  // onSubmit() {
+  //   if (this.isCancelClicked) return;
+  //   this.isSubmitted = true;
+  //   if (this.addCustomer.valid) {
+  //     const formData = this.addCustomer.value;
+  //     this.apiService.addCustomer(formData).subscribe(response => {
+  //       if (response) {
+  //         this.apiService.showNotification('داده‌ها با موفقیت ارسال شدند', 'success');
+  //         this.resetForm();
+  //       } else {
+  //         this.apiService.showNotification('داده‌ها ارسال نشدند', 'error');
+  //       }
+  //     }, error => {
+  //       this.apiService.showNotification('خطا در ارسال داده‌ها', 'error');
+  //     });
+  //   } else {
+  //     this.addCustomer.markAllAsTouched();
+  //     this.apiService.showNotification('لطفاً همه فیلدها را کامل کنید', 'error');
+  //   }
+  // }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.addCustomer.get(fieldName);
-    return (field?.invalid && this.isSubmitted) || false;
-  }
+  // isFieldInvalid(fieldName: string): boolean {
+  //   const field = this.addCustomer.get(fieldName);
+  //   return (field?.invalid && this.isSubmitted) || false;
+  // }
 
-  updateFormStatus() {
-    this.isFormFilled = this.addCustomer.valid;
-  }
+  // updateFormStatus() {
+  //   this.isFormFilled = this.addCustomer.valid;
+  // }
 
-  toggleVisibility() {
-    this.isVisible = !this.isVisible;
-  }
+  // toggleVisibility() {
+  //   this.isVisible = !this.isVisible;
+  // }
 }
 
 

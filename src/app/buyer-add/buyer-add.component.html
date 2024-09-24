@@ -1,115 +1,121 @@
 <mat-card>
     <form [formGroup]="addCustomer" (ngSubmit)="onSubmit()">
+
         <mat-toolbar>
             <button class="ml-1" mat-stroked-button type="submit">
-                ثبت<mat-icon>check_small</mat-icon>
+                ثبت<mat-icon matSuffix>check_small</mat-icon>
             </button>
-            <!-- <a mat-stroked-button [routerLink]="'/sell/invoice/list'"> -->
-            <a mat-stroked-button>
-                بازگشت<mat-icon>keyboard_return</mat-icon></a>
+            <a mat-stroked-button [routerLink]="'/dashboard'">
+                بازگشت<mat-icon matSuffix>keyboard_return</mat-icon></a>
         </mat-toolbar>
+
         <mat-divider></mat-divider>
-
-
-        <div class="grid grid-cols-2 gap-3 grid-rows-4 w-[50%] my-5 px-8">
-
-            <!--type-->
-            <div class="flex flex-col justify-center mb-5">
-
-                <mat-form-field>
+        <div class="grid grid-cols-3 grid-rows-4 gap-3 px-8 my-5">
+            <div>
+                <mat-form-field class='w-full'>
                     <mat-label>نوع مشتری:</mat-label>
-                    <mat-select required formControlName="type" >
+                    <mat-select required formControlName="type">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
                             {{ option.name }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
             </div>
 
             <!--name-->
-            <div *ngIf="selectedType !== 2" class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm"> نام</mat-label>
-                    <div class="flex flex-row items-center justify-center">
-                        <input matInput formControlName="name" placeholder="نام را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" required />
-                        <mat-icon>title</mat-icon>
-                    </div>
-                    <div *ngIf="isFieldInvalid('Name')" class="relative mr-6 text-xs text-red-600 bottom-4">
+            <div *ngIf="selectedType !== 2">
+                <mat-form-field class="w-full">
+                    <mat-label class="text-sm "> نام</mat-label>
+                    <input matInput formControlName="name" placeholder="نام را وارد کنید"
+                        class="placeholder:text-sm placeholder:text-black" required />
+                    <mat-icon matSuffix>title</mat-icon>
+                    <mat-error
+                        *ngIf="addCustomer.get('name')?.hasError('required') && addCustomer.get('name')?.invalid && addCustomer.get('name')?.touched">
                         این فیلد باید تکمیل شود.
-                    </div>
+                    </mat-error>
+                    <!-- <div *ngIf="addCustomer.get('name')?.invalid && addCustomer.get('name')?.touched"
+                        class="relative mr-6 text-xs text-red-600 bottom-4">
+                        <mat-error *ngIf="addCustomer.get('name')?.hasError('required') && addCustomer.get('name')?.invalid && addCustomer.get('name')?.touched">نام الزامی است</mat-error>
+                    </div> -->
                 </mat-form-field>
             </div>
 
             <!--brandname-->
-            <div *ngIf="selectedType !== 1 " class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">نام تجاری مشتری</mat-label>
-
-                    <div class="flex flex-row items-center justify-center">
-                        <input matInput formControlName="string" placeholder="نام تجاری مشتری را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" required />
-                        <mat-icon>title</mat-icon>
-                    </div>
-
-                    <div *ngIf="isFieldInvalid('BrandName')" class="relative mr-6 text-xs text-red-600 bottom-4">
+            <div *ngIf="selectedType === 2">
+                <mat-form-field class="w-full">
+                    <mat-label class="text-sm">نام تجاری مشتری</mat-label>
+                    <input matInput formControlName="brandName" placeholder="نام تجاری مشتری را وارد کنید"
+                        class="placeholder:text-sm placeholder:text-black" required />
+                    <mat-icon matSuffix>title</mat-icon>
+                    <mat-error
+                        *ngIf="addCustomer.get('brandName')?.hasError('required') && addCustomer.get('brandName')?.invalid && addCustomer.get('brandName')?.touched">
                         این فیلد باید تکمیل شود.
-                    </div>
+                    </mat-error>
+                    <!-- <div *ngIf="addCustomer.get('brandName')?.invalid && addCustomer.get('brandName')?.touched"
+                        class="relative mr-6 text-xs text-red-600 bottom-4">
+                        <mat-error *ngIf="addCustomer.get('brandName')?.hasError('required')">نام تجاری مشتری الزامی
+                            است</mat-error>
+                    </div> -->
                 </mat-form-field>
             </div>
 
             <!--economicNumber-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
+            <div>
+                <mat-form-field class='w-full'>
                     <mat-label class="mb-2 text-sm">کد اقتصادی</mat-label>
-
-                    <div class="flex flex-row items-center justify-center">
-                        <input matInput type="number" formControlName="economicNumber"
-                            placeholder="کد اقتصادی را وارد کنید" class="placeholder:text-sm placeholder:text-black"
-                            required />
-                        <mat-icon>pin</mat-icon>
-                    </div>
-
-                    <div *ngIf="isFieldInvalid('economicNumber')" class="relative mr-6 text-xs text-red-600 bottom-4">
+                    <input matInput type="number" formControlName="economicNumber" placeholder="کد اقتصادی را وارد کنید"
+                        class="placeholder:text-sm placeholder:text-black" required />
+                    <mat-icon matSuffix>pin</mat-icon>
+                    <mat-error *ngIf="addCustomer.get('economicNumber')?.hasError('required')">
                         این فیلد باید تکمیل شود.
-                    </div>
+                    </mat-error>
                 </mat-form-field>
             </div>
 
             <!--nationalId-->
-            <div *ngIf="selectedType !== 4 && selectedType!==2" class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">کد ملی</mat-label>
-
-                    <div class="flex flex-row items-center justify-center">
-                        <input matInput type="number" formControlName="nationalId" placeholder="کد ملی را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" required />
-                        <mat-icon>pin</mat-icon>
-                    </div>
-
-                    <div *ngIf="isFieldInvalid('nationalId')" class="relative mr-6 text-xs text-red-600 bottom-4">
+            <div *ngIf="selectedType !== 4 && selectedType!==2">
+                <mat-form-field class="w-full">
+                    <mat-label class="ext-sm ">کد ملی</mat-label>
+                    <input matInput type="number" formControlName="nationalId" placeholder="کد ملی را وارد کنید"
+                        class="placeholder:text-sm placeholder:text-black" required />
+                    <mat-icon matSuffix>pin</mat-icon>
+                    <mat-error
+                        *ngIf="addCustomer.get('nationalId')?.hasError('required') && addCustomer.get('nationalId')?.invalid && addCustomer.get('nationalId')?.touched">
                         این فیلد باید تکمیل شود.
-                    </div>
+                    </mat-error>
+                    <!-- 
+                    <div *ngIf="addCustomer.get('nationalId')?.invalid && addCustomer.get('nationalId')?.touched"
+                        class="relative mr-6 text-xs text-red-600 bottom-4">
+                        <mat-error *ngIf="addCustomer.get('nationalId')?.hasError('required')">کد ملی الزامی است</mat-error>
+                    </div> -->
                 </mat-form-field>
             </div>
 
             <!--کد اتباع-->
             <div *ngIf="selectedType === 4" class="flex flex-col justify-center mb-5">
-                <mat-form-field>
+                <mat-form-field class="w-full">
                     <mat-label>کد اتباع:</mat-label>
-                    <input matInput formControlName="nationalId" placeholder="کد اتباع را وارد کنید" />
-                    <mat-error *ngIf="isFieldInvalid('nationalId')">کد اتباع نامعتبر است.</mat-error>
+                    <input matInput formControlName="nationalId" required placeholder="کد اتباع را وارد کنید" />
+                    <mat-error
+                        *ngIf="addCustomer.get('nationalId')?.hasError('required') && addCustomer.get('nationalId')?.invalid && addCustomer.get('nationalId')?.touched">
+                        این فیلد باید تکمیل شود.
+                    </mat-error>
+                    <!-- <div *ngIf="addCustomer.get('nationalId')?.invalid && addCustomer.get('nationalId')?.touched"
+                        class="relative mr-6 text-xs text-red-600 bottom-4">
+                        <span *ngIf="addCustomer.get('nationalId')?.hasError('required')">کد اتباعلزامی است</span>
+                    </div> -->
                 </mat-form-field>
             </div>
 
             <!--moblie-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">تلفن</mat-label>
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">تلفن همراه</mat-label>
                     <div class="flex flex-row items-center justify-center">
                         <input matInput type="number" formControlName="moblie" placeholder="تلفن را وارد کنید"
                             class="placeholder:text-sm placeholder:text-black" />
-                        <mat-icon>call</mat-icon>
+                        <mat-icon matSuffix>call</mat-icon>
                     </div>
 
                     <!-- <div *ngIf="isFieldInvalid('moblie')" class="relative mr-6 text-xs text-red-600 bottom-4">
@@ -118,71 +124,95 @@
                 </mat-form-field>
             </div>
 
-            <!--address-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">آدرس</mat-label>
-                    <div class="flex flex-row items-center justify-center">
-                        <input matInput formControlName="address" placeholder="آدرس را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" />
-                        <mat-icon>location_on</mat-icon>
-                    </div>
-
-                    <!-- <div *ngIf="isFieldInvalid('address')" class="relative mr-6 text-xs text-red-600 bottom-4">
-                        این فیلد باید تکمیل شود.
-                    </div> -->
-                </mat-form-field>
-            </div>
-
-            <!--BranchPostalCode-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
+            <!--branchPostalCode-->
+            <div>
+                <mat-form-field class='w-full'>
                     <mat-label class="mb-2 text-sm">کد پستی </mat-label>
 
                     <div class="flex flex-row items-center justify-center">
-                        <input matInput type="number" formControlName="BranchPostalCode"
-                            placeholder="کد پستی را وارد کنید" class="placeholder:text-sm placeholder:text-black"
-                            required />
-                        <mat-icon>local_post_office</mat-icon>
+                        <input matInput type="number" formControlName="branchPostalCode"
+                            placeholder="کد پستی را وارد کنید" class="placeholder:text-sm placeholder:text-black" />
+                        <mat-icon matSuffix>local_post_office</mat-icon>
                     </div>
 
-                    <div *ngIf="isFieldInvalid('BranchPostalCode')" class="relative mr-6 text-xs text-red-600 bottom-4">
+                    <div *ngIf="isFieldInvalid('branchPostalCode')" class="relative mr-6 text-xs text-red-600 bottom-4">
                         این فیلد باید تکمیل شود.
                     </div>
                 </mat-form-field>
             </div>
 
-
-            <!--BranchCode-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">کد شعبه اصلی</mat-label>
+            <!--branchCountry-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">کشور</mat-label>
                     <div class="flex flex-row items-center justify-center">
-                        <input matInput placeholder="کد شعبه اصلی را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" type="number"
-                            formControlName="BranchCode" />
-                        <mat-icon>pin</mat-icon>
+                        <input matInput formControlName="branchCountry" placeholder="کشور را وارد کنید"
+                            class="placeholder:text-sm placeholder:text-black" />
+                        <mat-icon matSuffix>location_on</mat-icon>
                     </div>
-
-                    <!-- <div *ngIf="isFieldInvalid('BranchAddress')" class="relative mr-6 text-xs text-red-600 bottom-4">
-                        این فیلد باید تکمیل شود.
-                    </div> -->
                 </mat-form-field>
             </div>
 
-            <!--BranchName-->
-            <div class="flex flex-col justify-center mb-5">
-                <mat-form-field>
-                    <mat-label class="mb-2 text-sm">نام شعبه اصلی</mat-label>
+            <!--branchProvince-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">شهر</mat-label>
                     <div class="flex flex-row items-center justify-center">
-                        <input matInput placeholder="نام شعبه اصلی را وارد کنید"
-                            class="placeholder:text-sm placeholder:text-black" formControlName="BranchCode" />
-                        <mat-icon>location_on</mat-icon>
+                        <input matInput formControlName="branchProvince" placeholder="شهر را وارد کنید"
+                            class="placeholder:text-sm placeholder:text-black" />
+                        <mat-icon matSuffix>location_on</mat-icon>
                     </div>
+                </mat-form-field>
+            </div>
 
-                    <!-- <div *ngIf="isFieldInvalid('BranchAddress')" class="relative mr-6 text-xs text-red-600 bottom-4">
+            <!--branchCity-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">استان</mat-label>
+                    <div class="flex flex-row items-center justify-center">
+                        <input matInput formControlName="branchCity" placeholder="استان را وارد کنید"
+                            class="placeholder:text-sm placeholder:text-black" />
+                        <mat-icon matSuffix>location_on</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <!--branchAddress-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">آدرس</mat-label>
+                    <div class="flex flex-row items-center justify-center">
+                        <input matInput formControlName="branchAddress" placeholder="آدرس را وارد کنید"
+                            class="placeholder:text-sm placeholder:text-black" />
+                        <mat-icon matSuffix>location_on</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <!--branchCode-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">کد شعبه </mat-label>
+                    <input matInput placeholder="کد شعبه را وارد کنید"
+                        class="placeholder:text-sm placeholder:text-black" type="number" formControlName="branchCode"
+                        required />
+                    <mat-icon matSuffix>pin</mat-icon>
+                    <mat-error *ngIf="addCustomer.get('branchCode')?.hasError('required')">
                         این فیلد باید تکمیل شود.
-                    </div> -->
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!--branchName-->
+            <div>
+                <mat-form-field class='w-full'>
+                    <mat-label class="mb-2 text-sm">نام شعبه </mat-label>
+                    <input matInput placeholder="نام شعبه  را وارد کنید" required
+                        class="placeholder:text-sm placeholder:text-black" formControlName="branchName" />
+                    <mat-icon matSuffix>title</mat-icon>
+                    <mat-error *ngIf="addCustomer.get('branchName')?.hasError('required')">
+                        این فیلد باید تکمیل شود.
+                    </mat-error>
                 </mat-form-field>
             </div>
 
@@ -192,7 +222,6 @@
                     شعبه مرکزی
                 </mat-checkbox>
             </section>
-
         </div>
     </form>
 </mat-card>
